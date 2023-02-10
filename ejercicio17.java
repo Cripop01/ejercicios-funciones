@@ -6,18 +6,23 @@ public class ejercicio17 {
 
     public static boolean primo(int numero) {
         boolean res = false;
+        int cont = 0;
         if(numero <= 1) {
             res = false;
         } else {
-            //Dividir numero por todos los numeros que no sean 1 ni el mismo
-            for(int i = 2; i<= numero; i++) {
-                if(numero % i != 0 || numero == 2) {
-                    res = true;
-                } else {
-                    res = false;
+            for(int i = 1; i<= numero; i++) {
+                if(numero % i == 0) {
+                    cont++;
                 }
             }
+            if(cont > 2) {
+                res = false;
+            } else {
+                res = true;
+            }
+
         }
+
         return res;
     }
     public static void main(String[] args) {
