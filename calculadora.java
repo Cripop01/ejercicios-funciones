@@ -24,7 +24,7 @@ public class calculadora {
     }
     
     //Metodo que muestra el menu principal y recoge la seleccion del usuario
-    public static int mostrarmenu() {
+    public static int c() {
         System.out.println("1 - Suma");
         System.out.println("2 - Resta");
         System.out.println("3 - Multiplicación");
@@ -39,7 +39,7 @@ public class calculadora {
         return opcion;
     }
 
-
+    //Metodo que comprueba si el valor es valido
     public static boolean comprobar(Double num, Double min, Double max) {
         if(num <= max && num >= min) {
             return true;
@@ -48,6 +48,7 @@ public class calculadora {
         }
     }
 
+    
     public static Double pedirvalor(Double min, Double max) {
         Double res = null;
         boolean valido;
@@ -62,6 +63,7 @@ public class calculadora {
         return res;
     }
 
+    //Metodo que  tiene un scanner para introducir un valor double
     public static Double pedirvalor(boolean txt) {
         if(txt) {
             System.out.println("Introduce un numero: ");
@@ -69,15 +71,18 @@ public class calculadora {
         return new Scanner(System.in).nextDouble();
     }
 
+    //Metodo que pide valores segun la opcion
     public static void pedirvalores(int opcion) {
         if(opcion == 8) {
-            calculo(opcion, pedirvalor(-360.0 , 360.0), 0.0);
+            calculo(opcion, pedirvalor(-360.0 , 360.0), null);
         } else if(opcion == 9) {
             calculo(opcion, null, null);
         } else if(opcion == 7) {
-            calculo(opcion, pedirvalor(0.0, 1000000.0), 0.0);
+            calculo(opcion, pedirvalor(0.0, 1000000.0), null);
         } else if(opcion >= 5) {
             calculo(opcion, pedirvalor(0.0, 1000000.0), pedirvalor(0.0, 1000000.0));
+        } else if(opcion == 4) {
+            calculo(opcion, pedirvalor(1.0, 1000000.0), pedirvalor(1.0, 1000000.0));
         } else {
             calculo(opcion, pedirvalor(true), pedirvalor(true));
         }
@@ -107,21 +112,25 @@ public class calculadora {
             case 7:
                 System.out.println("Area del ciruclo: " + prod(Math.PI, Math.pow(a, 2)));
                 break;
+
+            case 8:
+                System.out.println(Math.sin(a) + " " + Math.cos(a));
+                break;
             case 9:
                 System.out.println("Saliste del menu");
                 break;
             default:
                 System.out.println("Debes de seleccionar una opcion del 1 al 9");
                 break;
+                
         }
 
-
+        if(opcion != 9) {
+            c();
+        }
     }
 
     public static void main(String[] args) {
-        int opcion;
-        do {
-            opcion = mostrarmenu();
-        } while(opcion != 9);
+        c();
     }
 }
