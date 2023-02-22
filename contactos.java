@@ -8,9 +8,7 @@ public class contactos {
 
      //Metodo que muestra todos los contactos
     public static void mostrar() {
-
         for(int i = 0; i<contador; i++) {
-            System.out.print(i + " ");
             mostrar(i);
         }
     }
@@ -18,9 +16,12 @@ public class contactos {
     //Metodo que muestra los datos de un contacto(fila) en concreto
 
     public static void mostrar(int fila) {
+        System.out.println("Id " + "\t" + "Nombre" + "\t\t" + "Telefono " + "\t" + "Email");
+        System.out.print(fila + "\t");
         for(int i = 0; i< agenda[fila].length; i++) {
             System.out.print(agenda[fila][i] + "\t");
         }
+        System.out.println();
     }
 
     //Metodo que muestra el menu y devuelve la opcion seleccionada
@@ -50,13 +51,18 @@ public class contactos {
 
     
     //Metodo que realiza la busqueda de un string en la columna especificada
-    public static void buscar(String busqueda, int col) {
+    public static void buscar(String busqueda, int col, String txt) {
         if(col > 3) {
             col -= 4;
         }
 
+        if(txt == null) {
+            txt = "Resultado de la busqueda";
+        }
+
+        System.out.println(txt);
+
         for(int f = 0; f<contador; f++) {
-            System.out.println("Resultado de la busqueda: ");
             if(agenda[f][col].toUpperCase().contains(busqueda.toUpperCase())) {
                 mostrar(f);
             }
@@ -65,31 +71,25 @@ public class contactos {
     }
 
     public static void buscar(String busqueda) {
-        String txt = new String();
         for(int i = 0; i < agenda[0].length; i++) {
+            String txt = new String();
             switch(i) {
                 case 0:
-                    txt = "nombre";
+                    txt = "Nombre";
                     break;
                 case 1:
-                    txt = "telefono";
+                    txt = "Telfono";    
                     break;
                 case 2:
-                    txt = "correo";
-                    break;        
+                    txt = "Email";
+                    break;    
             }
-
-            System.out.println("Contactos cuyo " + txt + " contiene" + busqueda);
-            buscar(busqueda, i);
+            buscar(busqueda, i, "Concactos cuyo " + txt + " es " + busqueda );
         }
     }
 
     public static void eliminar(int pos) {
-        for(int i = contador; i >= pos -1; i--) {
-            for(int c = 0; c < agenda[i].length; i++) {
-                agenda[i - 1][c] = agenda[i][c];
-            } 
-        }
+        //Acabar eliminacion
     }
 
     public static void manejar(int opcion, String valor) {
@@ -109,7 +109,6 @@ public class contactos {
                 for(int i = 0; i<valores.length; i++) {
                     agenda[contador][i] = valores[i];
                 }
-
                 contador++;
                 break;
             case 3:
@@ -120,7 +119,7 @@ public class contactos {
                 break;
                 //Buscar por nombre, telefono o correo
             case 4: case 5: case 6:
-                buscar(valor, opcion);
+                buscar(valor, opcion, null);
                 break;
                 //Busqueda total
             case 7:
@@ -140,8 +139,6 @@ public class contactos {
         System.out.print(texto);
         return new Scanner(System.in).nextLine();
     }
-
-    
 
     public static void main(String[] args) {
        int opcion = menu();
