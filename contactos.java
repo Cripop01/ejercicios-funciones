@@ -14,9 +14,12 @@ public class contactos {
     static String[][] agenda = new String[max_contactos][3]; //Matriz que almacena los contactos
     static int contador = 0; //Contador de las posiciones utilizadas en la matriz
 
+    //Metodo que pide un entero por pantalla
     public static int PideInt() {
         return new Scanner(System.in).nextInt();
     }
+
+    //Metodo que muestra el menu y devuelve la opcion
     public static int menu() {
         System.out.println("1. Ver contactos");
         System.out.println("2. Agregar contacto");
@@ -30,20 +33,33 @@ public class contactos {
         pidedatos(opcion);
         return opcion;
     }
+    //Metodo que recibe como parametro la opcion y hace uso de los metodos necasarios en funcion de la opcion
+    //seleccionada
     public static void manejar(int opcion, String dato) {
         switch (opcion) {
+            //Muestra los contactos de la agenda
             case 1:
                 if(comprobar(opcion)) {
                     mostrar();
                 }
                 break;
             case 2:
+                //Añade un contacto a la agenda
                 if(comprobar(opcion)) {
                     String arrdatos[] = dato.split(" ");
-                    for(int i = 0; i<arrdatos.length; i++) {
-                        agenda[contador][i] = arrdatos[i];
+                    //Si el nombre no existe y el correo tampoco añade el contacto a la agenda
+                    if(!buscar(arrdatos[0], 0) && !buscar(arrdatos[1], 1)) { //Queda hacer con bucle esto
+                        for(int i = 0; i<arrdatos.length; i++) {
+                            agenda[contador][i] = arrdatos[i];
+                        }
+                        //Aumenta el contador al añadir un contacto a la agenda
+                        contador++;
+                        //Mensaje que se muestra si no se añade el contacto a la agedna
+                    } else {
+                        System.out.println("El nombre o el correo que has indicado ya existe");
                     }
-                    contador++;
+
+
                 }
                 break;
             case 3:
@@ -73,6 +89,7 @@ public class contactos {
         }
     }
 
+    //Metodo que controla el texto que se le muestra al usuario al realizar las busquedas
     public static String txtBusqueda(int col) {
         String txt = new String();
         switch (col) {
@@ -89,12 +106,20 @@ public class contactos {
         return txt;
     }
 
+    //Metodo que sirve para buscar un dato en concreto de un contacto haciendo uso de la columna de la matriz
+    //que corresponde al dato que se quiere buscar
+    //Devuelve un boleano que indica o no si se ha encontrado lo que se  estaba buscando
     public static boolean buscar(String busqueda, int col) {
+        //Si el dato es mayor o igual que cuatro se le resta cuatro ya que 4 5 y 6 restandole cuatro respectivamente
+        //devuelven las posiciones de la matriz 0 1 y 2 que es donde queremos buscar. Si no es 4 5 o 6 buscara en
+        //el parametro inicial que se le pasa a la funcion
         if(col >= 4) {
             col -= 4;
         }
 
         boolean found = false;
+        //Busca en la columna que coincide con la variable col si el texto que contienen los datos en la matriz
+        //contiene alguna cadena de la cadena de busqueda
         for(int i = 0; i<contador; i++) {
             if(agenda[i][col].toUpperCase().contains(busqueda.toUpperCase())) {
                 System.out.println(mostrar(i));
@@ -102,11 +127,13 @@ public class contactos {
             }
         }
 
+        //Si no se encuentra ninguna coincidencia muestra el siguiente mensaje con un salto de linea
         if(!found) {
             System.out.println("No se ha nencontrado contactos con el " + txtBusqueda(col) + " " + busqueda);
         }
         return found;
     }
+
 
     public static boolean buscar(String busqueda) {
         boolean res = false;
@@ -117,22 +144,35 @@ public class contactos {
 
         return res;
     }
+
+    //Metodo que itera las filas del bucle
     public static void mostrar() {
         for(int i = 0; i<contador; i++) {
+            //Por cada fila llama a mostrar con el parametro de fila
             System.out.println(mostrar(i));
         }
     }
 
+    //Metodo que mustra los datos de un contacto, o fila de la matriz
     public static  String  mostrar(int fila) {
-        System.out.println("Nombre" + "\t" + "Telefono" + "\t" + "Correo");
+        //Cabecera de todos los contactos
+        System.out.println("Id" + "\t" + "Nombre" + "\t" + "Telefono" + "\t" + "Correo");
+        System.out.print(fila +"\t");
         String texto = new String();
+        //Coge los tres datos y los añade a la matriz en la columna correspondiente del 0 al 2
         for(int i = 0; i<3; i++) {
             texto += agenda[fila][i] + "\t";
         }
 
+        //Devuelve el texto en el que ha guardado los datos para mostrarselos al usuario
         return texto;
     }
 
+    //Metodo que comprueba si no hay contactos en la agenda  o si la agenda ya esta llena
+    //Devuelve un booleano que devuelve false si se cumple alguna de esas dos condiciones de lo contrario devolvera
+    //true
+    //Se le pasa como parametro opcion para comprobar que al seleccionar la opcion 2 no compruebe si el contador esta
+    //a cero y tambien  que no comprueba si se ha llegado al maximo de  contactos  si se selecciona la opcion 0
     public static boolean comprobar(int opcion) {
         boolean res = true;
         if(contador == 0 && opcion != 2) {
@@ -145,6 +185,7 @@ public class contactos {
         return res;
     }
 
+    //Metodo que pide los datos y los manda al metodo manejar que ya se encargara de hacer algo con estos
     public static void pidedatos(int opcion) {
         if(opcion == 1) {
             manejar(opcion, "");
@@ -154,14 +195,18 @@ public class contactos {
             manejar(opcion, pidestring("Introduce la busqueda"));
         }
     }
+
+    //Metodo que pide un string y se le pasa otro string para que sea visible para el usuario
     public static String pidestring(String text) {
         System.out.print(text + ": ");
         return new Scanner(System.in).nextLine();
     }
 
+    //Metodo principal del programa
     public static void main(String[] args) {
+        //Si la opcion seleccionada no sea 8 se seguira mostrando el menu en bucle
         int opcion = menu();
-        while(opcion >= 0 && opcion <= 8) {
+        while(opcion != 8) {
             menu();
         }
     }
