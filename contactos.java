@@ -38,11 +38,13 @@ public class contactos {
                 }
                 break;
             case 2:
-                String arrdatos[] = dato.split(" ");
-                for(int i = 0; i<arrdatos.length; i++) {
-                    agenda[contador][i] = arrdatos[i];
+                if(comprobar(opcion)) {
+                    String arrdatos[] = dato.split(" ");
+                    for(int i = 0; i<arrdatos.length; i++) {
+                        agenda[contador][i] = arrdatos[i];
+                    }
+                    contador++;
                 }
-                contador++;
                 break;
             case 3:
                 if(buscar(dato)) {
@@ -53,6 +55,7 @@ public class contactos {
                         }
                     }
                     contador--;
+                    System.out.println("Se ha eliminado la cuenta correctamente");
                 }
                 break;
             case 4: case 5: case 6:
@@ -123,8 +126,8 @@ public class contactos {
     public static  String  mostrar(int fila) {
         System.out.println("Nombre" + "\t" + "Telefono" + "\t" + "Correo");
         String texto = new String();
-        for(int i = 0; i<agenda[fila].length; i++) {
-            texto = agenda[fila][i] + "\t";
+        for(int i = 0; i<3; i++) {
+            texto += agenda[fila][i] + "\t";
         }
 
         return texto;
@@ -143,10 +146,10 @@ public class contactos {
     }
 
     public static void pidedatos(int opcion) {
-        if(opcion == 1 || opcion == 3) {
-            manejar(opcion, pidestring(""));
+        if(opcion == 1) {
+            manejar(opcion, "");
         } else if(opcion == 2) {
-            manejar(opcion, pidestring(" Introduce los datos del contacto: "))
+            manejar(opcion, pidestring(" Introduce los datos del contacto: "));
         } else {
             manejar(opcion, pidestring("Introduce la busqueda"));
         }
