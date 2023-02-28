@@ -119,7 +119,6 @@ public class ahorcado_final {
     }
 
     public static void  main(String[] args) {
-        System.out.println(Arrays.toString(palabra));
         Arrays.fill(jugando, '-');
         while(vidas > 0 && !ganador()) {
             pideletra();
