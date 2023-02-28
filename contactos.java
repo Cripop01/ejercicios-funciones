@@ -14,9 +14,13 @@ public class contactos {
     static String[][] agenda = new String[max_contactos][3]; //Matriz que almacena los contactos
     static int contador = 0; //Contador de las posiciones utilizadas en la matriz
 
+    public static Scanner in = new Scanner(System.in);
+
     //Metodo que pide un entero por pantalla
     public static int PideInt() {
-        return new Scanner(System.in).nextInt();
+        int eleccion=in.nextInt();
+        in.nextLine();
+        return eleccion;
     }
 
     //Metodo que muestra el menu y devuelve la opcion
@@ -48,7 +52,7 @@ public class contactos {
                 if(comprobar(opcion)) {
                     String arrdatos[] = dato.split(" ");
                     //Si el nombre no existe y el correo tampoco añade el contacto a la agenda
-                    if(!buscar(arrdatos[0], 0) && !buscar(arrdatos[1], 1)) { //Queda hacer con bucle esto
+                    if(!buscar(arrdatos[0], 0) && !buscar(arrdatos[1], 1)) { 
                         for(int i = 0; i<arrdatos.length; i++) {
                             agenda[contador][i] = arrdatos[i];
                         }
@@ -63,9 +67,13 @@ public class contactos {
                 }
                 break;
             case 3:
+                //Busca la cuenta con el dato introducido en busqueda general si encuentra algo sigue
                 if(buscar(dato)) {
+                    //Si encuentra algo hace el bucle para eliminar la cuenta
                     System.out.print("Selecciona la id de la cuenta que quieres eliminar: ");
-                    for(int i = contador - 1; i>= PideInt(); i--) {
+                    //in.nextLine(); //Evita que el scanner se queda pillado
+                    int n_cuenta = PideInt(); // Numero de cuenta que quieres eliminar
+                    for(int i = contador - 1; i>= n_cuenta; i--) {
                         for(int c = 0; c < agenda[i].length; c++) {
                             agenda[i + 1][c] = agenda[i][c];
                         }
@@ -113,8 +121,11 @@ public class contactos {
         //Si el dato es mayor o igual que cuatro se le resta cuatro ya que 4 5 y 6 restandole cuatro respectivamente
         //devuelven las posiciones de la matriz 0 1 y 2 que es donde queremos buscar. Si no es 4 5 o 6 buscara en
         //el parametro inicial que se le pasa a la funcion
+
+        boolean texto = false;
         if(col >= 4) {
             col -= 4;
+            texto = true;
         }
 
         boolean found = false;
@@ -128,7 +139,7 @@ public class contactos {
         }
 
         //Si no se encuentra ninguna coincidencia muestra el siguiente mensaje con un salto de linea
-        if(!found) {
+        if(!found && texto) {
             System.out.println("No se ha nencontrado contactos con el " + txtBusqueda(col) + " " + busqueda);
         }
         return found;
@@ -199,7 +210,7 @@ public class contactos {
     //Metodo que pide un string y se le pasa otro string para que sea visible para el usuario
     public static String pidestring(String text) {
         System.out.print(text + ": ");
-        return new Scanner(System.in).nextLine();
+        return in.nextLine();
     }
 
     //Metodo principal del programa
