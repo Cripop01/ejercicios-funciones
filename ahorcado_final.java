@@ -118,6 +118,10 @@ public class ahorcado_final {
         }
     }
 
+    
+    /** 
+     * @param args
+     */
     public static void  main(String[] args) {
         Arrays.fill(jugando, '-');
         while(vidas > 0 && !ganador()) {
