@@ -8,7 +8,7 @@ public class ejercicio8 {
         }
 
         return res;
-    }Mango
+    }
 
     public static int producto(int n) {
         int res = 1;
